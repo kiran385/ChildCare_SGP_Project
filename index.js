@@ -34,7 +34,7 @@ app.post("/sign_up", async (req, res) => {
   var data = {
     "email": email,
     "password": password
-  }
+  } 
   db.collection('users').insertOne(data, (err, collection) => {
     if (err) {
       throw err;
@@ -58,7 +58,7 @@ app.post("/login", async (req, res) => {
     }
 
     if (password === user.password) {
-      res.redirect('/login_success');
+      res.redirect(`/signup_successful?email=${encodeURIComponent(email)}`);
     } else {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -67,18 +67,6 @@ app.post("/login", async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
-
-// app.get('/login', async (req, res) => {
-//   try {
-//     const data = await db.collection("users").findOne({ email });
-//     // Assuming 'email' is a field in your data object
-//     console.log(data)
-//     res.json({ email: data.email });
-//   } catch (err) { 
-//     console.error(err);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
 
 
 app.get("/", (req, res) => {
@@ -92,7 +80,7 @@ app.get("/login", (req, res) => {
   res.redirect('/login.html');
 });
 
-app.get("/login_success", async (req, res) => {
+app.get("/signup_successful", async (req, res) => {
   res.redirect('/signup_successful.html');
 })
 
